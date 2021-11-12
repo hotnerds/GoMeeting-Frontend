@@ -1,0 +1,32 @@
+.signin-loginBtn {
+  width: 80%;
+  height: 20%;
+  border-radius: 1rem;
+  font-size: 1rem;
+  margin-top: 1vh;
+  color: white;
+  border: none;
+  background-color: #ffabab;
+}
+
+.signin-form {
+  width: 50vw;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > input {
+    width: 90%;
+    height: 15%;
+    border-radius: 0.5rem;
+    border: 0.05rem solid black;
+    margin: 0.1rem;
+  }
+
+  & > span {
+    font-size: 0.5rem;
+    color: red;
+  }
+}
