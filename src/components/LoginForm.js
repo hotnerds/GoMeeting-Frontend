@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "../css/LoginForm.scss";
-import useAsync from "../hooks/useAsync";
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../css/LoginForm.scss';
+import useAsync from '../hooks/useAsync';
 
 async function getToken() {
-  const response = await axios.get("https://getuser");
+  const response = await axios.get('https://getuser');
   return response.data;
 }
 
 const LoginForm = () => {
   const [state, refetch] = useAsync(getToken, [], true);
   const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const { email, password } = inputs;
@@ -26,16 +26,21 @@ const LoginForm = () => {
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const regExp =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     if (regExp.test(email)) {
       // email is valid
       // refetch();
-      console.log("유효합니다");
+      console.log('유효합니다');
     } else {
-      console.log("유효한 이메일을 입력해주세요.");
+      console.log('유효한 이메일을 입력해주세요.');
     }
+    setInputs({
+      email: '',
+      password: '',
+    });
   };
 
   // if (loading) return <div>로딩중</div>;
@@ -49,7 +54,7 @@ const LoginForm = () => {
   // }
 
   return (
-    <div className="loginform-Div">
+    <form className="loginform-Div" onSubmit={onSubmit}>
       <input
         name="email"
         placeholder="id"
@@ -57,19 +62,14 @@ const LoginForm = () => {
         value={email}
       ></input>
       <input
-        name="nickname"
+        name="password"
         placeholder="password"
         type="password"
+        onChange={onChange}
         value={password}
       ></input>
-      <button
-        className="loginform-loginBtn"
-        onChange={onChange}
-        onClick={onSubmit}
-      >
-        Login
-      </button>
-    </div>
+      <button className="loginform-loginBtn">Login</button>
+    </form>
   );
 };
 
