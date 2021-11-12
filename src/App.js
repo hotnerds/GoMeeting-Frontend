@@ -1,11 +1,8 @@
-import UserSignUp from './components/UserSignUp';
+import React from 'react';
+import Router from './Router';
 
-function App() {
-  return (
-    <div className="App">
-      <UserSignUp />
-    </div>
-  );
-}
+const App = () => {
+  return <Router />;
+};
 
 export default App;
