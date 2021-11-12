@@ -24,4 +24,9 @@
     border: 0.05rem solid black;
     margin: 0.1rem;
   }
+
+  & > span {
+    font-size: 0.5rem;
+    color: red;
+  }
 }

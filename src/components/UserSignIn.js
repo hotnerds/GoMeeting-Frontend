@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import "../css/UserSignIn.scss";
 import useAsync from "../hooks/useAsync";
 
 async function getToken() {
-  const response = await axios.get("https://getuser");
-  return response.data;
+  // const response = await axios.get("https://getuser");
+  // return response.data;
+  return null;
 }
 
 const UserSignIn = () => {
@@ -14,6 +15,7 @@ const UserSignIn = () => {
     email: "",
     password: "",
   });
+  const valid = useRef();
 
   const { email, password } = inputs;
   const { loading, data: token, error } = state;
@@ -32,10 +34,10 @@ const UserSignIn = () => {
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     if (regExp.test(email)) {
       // email is valid
-      // refetch();
-      console.log("유효합니다");
+      refetch();
+      valid.current.style.display = "none";
     } else {
-      console.log("유효한 이메일을 입력해주세요.");
+      valid.current.style.display = "";
     }
     setInputs({
       email: "",
@@ -61,6 +63,9 @@ const UserSignIn = () => {
         onChange={onChange}
         value={email}
       ></input>
+      <span style={{ display: "none" }} ref={valid}>
+        유효하지 않은 이메일 형식입니다
+      </span>
       <input
         name="password"
         placeholder="password"
