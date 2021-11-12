@@ -1,0 +1,38 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  height: 60vh;
+  width: 80vw;
+}
+
+.signup-form {
+  width: 100%;
+  & > input {
+    width: 90%;
+    height: 7%;
+    border-radius: 0.5rem;
+    border: 0.05rem solid black;
+    margin: 0.1rem;
+  }
+  & > .signup-btn-container {
+    display: flex;
+    justify-content: center;
+    height: 10%;
+  }
+  & > div {
+    margin: 2% 0;
+  }
+  & > div > button {
+    width: 80%;
+    border-radius: 1rem;
+    font-size: 1rem;
+    margin-top: 1vh;
+    color: white;
+    border: none;
+    background-color: #ffabab;
+  }
+}
+.signup-error {
+  color: red;
+  text-decoration: underline;
+}
