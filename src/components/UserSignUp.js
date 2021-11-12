@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
+import '../css/UserSignUp.scss';
 
 const INVALID_EMAIL = 'INVALID_EMAIL';
 const INVALID_PASSWORD = 'INVALID_PASSWORD';
@@ -43,10 +44,13 @@ function UserSignUp() {
     password: '',
     passwordCheck: '',
     school: '',
+    gender: '',
+    yearOfAdmission: '',
   });
   const [error, dispatch] = useReducer(reducer, initialState);
 
-  const { email, password, passwordCheck, school } = signUpForm;
+  const { email, password, passwordCheck, school, gender, yearOfAdmission } =
+    signUpForm;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -58,6 +62,7 @@ function UserSignUp() {
       password: '',
       passwordCheck: '',
       school: '',
+      gender: 'Female',
     });
   };
 
@@ -82,48 +87,66 @@ function UserSignUp() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <div>Email</div>
+    <div className="signup-container">
+      <form className="signup-form" onSubmit={onSubmit}>
+        <div>이메일</div>
         <input
           type="text"
           name="email"
-          placeholder="Enter your email"
+          placeholder="이메일을 입력해주세요"
           onChange={onChange}
           value={email}
           required
         />
-        {error.email ? <div>check your Email!</div> : null}
-        <div>Password</div>
+        {error.email ? (
+          <div className="signup-error">이메일을 확인해주세요.</div>
+        ) : null}
+        <div>비밀번호</div>
         <input
           type="password"
           name="password"
-          placeholder="password"
+          placeholder="비밀번호를 입력해주세요."
           onChange={onChange}
           value={password}
           required
         />
-        <div>Password check</div>
+        <div>비밀번호 확인</div>
         <input
           type="password"
           name="passwordCheck"
-          placeholder="password"
+          placeholder="다시 한 번 입력해주세요."
           onChange={onChange}
           value={passwordCheck}
           required
         />
-        {error.password ? <div>Check your password!</div> : null}
-        <div>School</div>
+        {error.password ? (
+          <div className="signup-error">비밀번호를 확인해주세요.</div>
+        ) : null}
+        <div>학교 정보</div>
         <input
           type="text"
           name="school"
-          placeholder="school"
+          placeholder="학교 정보를 입력해주세요."
           onChange={onChange}
           value={school}
           required
         />
-        <div>
-          <button>Submit</button>
+        <div>성별</div>
+        <select name="gender" onChange={onChange}>
+          <option value="Female">여자</option>
+          <option value="Male">남자</option>
+        </select>
+        <div>학번</div>
+        <select name="yearOfAdmission" onChange={onChange}>
+          <option value="17">17학번</option>
+          <option value="18">18학번</option>
+          <option value="19">19학번</option>
+          <option value="20">20학번</option>
+          <option value="21">21학번</option>
+          <option value="21">22학번</option>
+        </select>
+        <div className="signup-btn-container">
+          <button className="signup-btn">회원가입</button>
         </div>
       </form>
       {/* <Link to="api/auth/google">Google로 로그인</Link> */}
