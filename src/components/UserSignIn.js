@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import axios from "axios";
-import "../css/UserSignIn.scss";
-import useAsync from "../hooks/useAsync";
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import '../css/UserSignIn.scss';
+import useAsync from '../hooks/useAsync';
 
 async function getToken() {
   // const response = await axios.get("https://getuser");
@@ -12,8 +12,8 @@ async function getToken() {
 const UserSignIn = () => {
   const [state, refetch] = useAsync(getToken, [], true);
   const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const valid = useRef();
 
@@ -35,13 +35,13 @@ const UserSignIn = () => {
     if (regExp.test(email)) {
       // email is valid
       refetch();
-      valid.current.style.display = "none";
+      valid.current.style.display = 'none';
     } else {
-      valid.current.style.display = "";
+      valid.current.style.display = '';
     }
     setInputs({
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     });
   };
 
@@ -63,7 +63,7 @@ const UserSignIn = () => {
         onChange={onChange}
         value={email}
       ></input>
-      <span style={{ display: "none" }} ref={valid}>
+      <span style={{ display: 'none' }} ref={valid}>
         유효하지 않은 이메일 형식입니다
       </span>
       <input
