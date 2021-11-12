@@ -1,0 +1,21 @@
+$font-stack: Helvetica, sans-serif;
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.navigation {
+  color: black;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 2vh;
+  border-top: 2px solid rgb(160, 160, 160);
+  display: flex;
+
+  & > div {
+    width: 25%;
+  }
+}

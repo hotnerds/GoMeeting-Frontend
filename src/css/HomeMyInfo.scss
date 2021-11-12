@@ -1,0 +1,27 @@
+.home-profile {
+  margin: 20vh 0vh 2vh 2vh;
+  height: 20vh;
+  width: 55vw;
+  border: 2px ridge rgb(160, 160, 160);
+  border-radius: 1rem;
+  display: flex;
+  float: right;
+  font-size: 10pt;
+}
+
+.home-image {
+  margin: 20vh 0vh 2vh 2vh;
+  height: 20vh;
+  width: 30vw;
+  border: 2px solid rgb(160, 160, 160);
+  border-radius: 1rem;
+  display: inline-block;
+  float: left;
+  text-align: center;
+}
+
+img {
+  width: 25vw;
+  height: 18vh;
+  margin: 5px;
+}
