@@ -49,8 +49,7 @@ function UserSignUp() {
   });
   const [error, dispatch] = useReducer(reducer, initialState);
 
-  const { email, password, passwordCheck, school, gender, yearOfAdmission } =
-    signUpForm;
+  const { email, password, passwordCheck, school } = signUpForm;
 
   const onChange = (e) => {
     const { value, name } = e.target;
