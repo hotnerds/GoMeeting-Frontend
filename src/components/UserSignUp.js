@@ -44,8 +44,8 @@ function UserSignUp() {
     password: '',
     passwordCheck: '',
     school: '',
-    gender: '',
-    yearOfAdmission: '',
+    gender: 'Female',
+    yearOfAdmission: '17',
   });
   const [error, dispatch] = useReducer(reducer, initialState);
 
@@ -63,6 +63,7 @@ function UserSignUp() {
       passwordCheck: '',
       school: '',
       gender: 'Female',
+      yearOfAdmission: '17',
     });
   };
 
