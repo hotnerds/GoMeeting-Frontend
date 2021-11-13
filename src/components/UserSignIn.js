@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import '../css/UserSignIn.scss';
 import useAsync from '../hooks/useAsync';
 
 async function getToken() {
   // const response = await axios.get("https://getuser");
   // return response.data;
-  return null;
+  return {
+    response: 'tokentest',
+  };
 }
 
 const UserSignIn = () => {
@@ -16,6 +19,7 @@ const UserSignIn = () => {
     password: '',
   });
   const valid = useRef();
+  const navigate = useNavigate();
 
   const { email, password } = inputs;
   const { loading, data: token, error } = state;
@@ -50,32 +54,34 @@ const UserSignIn = () => {
   //   console.log(`error occured : ${error}`);
   //   return null;
   // }
-  // if (!token) {
-  //   console.log("error occured: token is null");
-  //   return null;
-  // }
+  if (!token) {
+    return (
+      <form className="signin-form" onSubmit={onSubmit}>
+        <input
+          name="email"
+          placeholder="학교 계정"
+          onChange={onChange}
+          value={email}
+        ></input>
+        <span style={{ display: 'none' }} ref={valid}>
+          유효하지 않은 이메일 형식입니다
+        </span>
+        <input
+          name="password"
+          placeholder="비밀번호"
+          type="password"
+          onChange={onChange}
+          value={password}
+        ></input>
+        <button className="signin-loginBtn">로그인</button>
+      </form>
+    );
+  } else {
+    localStorage.setItem('accessToken', token.response);
+    navigate('/');
+  }
 
-  return (
-    <form className="signin-form" onSubmit={onSubmit}>
-      <input
-        name="email"
-        placeholder="id"
-        onChange={onChange}
-        value={email}
-      ></input>
-      <span style={{ display: 'none' }} ref={valid}>
-        유효하지 않은 이메일 형식입니다
-      </span>
-      <input
-        name="password"
-        placeholder="password"
-        type="password"
-        onChange={onChange}
-        value={password}
-      ></input>
-      <button className="signin-loginBtn">Login</button>
-    </form>
-  );
+  return null;
 };
 
 export default UserSignIn;
