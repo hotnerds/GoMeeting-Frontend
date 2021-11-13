@@ -98,7 +98,7 @@ function UserSignUp() {
   const onAuthSubmit = (e) => {
     e.preventDefault();
     if (verifyCode.current.value === code) {
-      navigate('/');
+      navigate('/auth');
     } else {
       codeValid.current.style.display = '';
     }
