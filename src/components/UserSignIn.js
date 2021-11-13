@@ -58,7 +58,7 @@ const UserSignIn = () => {
       <form className="signin-form" onSubmit={onSubmit}>
         <input
           name="email"
-          placeholder="id"
+          placeholder="학교 계정"
           onChange={onChange}
           value={email}
         ></input>
@@ -67,12 +67,12 @@ const UserSignIn = () => {
         </span>
         <input
           name="password"
-          placeholder="password"
+          placeholder="비밀번호"
           type="password"
           onChange={onChange}
           value={password}
         ></input>
-        <button className="signin-loginBtn">Login</button>
+        <button className="signin-loginBtn">로그인</button>
       </form>
     );
   } else {
