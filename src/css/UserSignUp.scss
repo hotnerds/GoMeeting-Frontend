@@ -1,12 +1,14 @@
 .signup-container {
   display: flex;
-  justify-content: center;
-  height: 60vh;
+  align-items: center;
+  flex-direction: column;
+  height: 90vh;
   width: 80vw;
 }
 
 .signup-form {
   width: 100%;
+  height: 60%;
   & > input {
     width: 90%;
     height: 7%;
@@ -35,4 +37,29 @@
 .signup-error {
   color: red;
   text-decoration: underline;
+}
+.final-auth-form {
+  width: 100%;
+  & > input {
+    width: 90%;
+    height: 60%;
+    border-radius: 0.5rem;
+    border: 0.05rem solid black;
+    margin: 0.1rem;
+  }
+  & > .final-auth-btn-container {
+    display: flex;
+    justify-content: center;
+    height: 70%;
+    margin: 2% 0;
+  }
+  & > .final-auth-btn-container > button {
+    width: 80%;
+    border-radius: 1rem;
+    font-size: 1rem;
+    margin-top: 1vh;
+    color: white;
+    border: none;
+    background-color: #ffabab;
+  }
 }

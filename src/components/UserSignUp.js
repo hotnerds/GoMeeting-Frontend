@@ -1,41 +1,30 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/UserSignUp.scss';
+import useAsync from '../hooks/useAsync';
+import { useNavigate } from 'react-router';
 
-const INVALID_EMAIL = 'INVALID_EMAIL';
-const INVALID_PASSWORD = 'INVALID_PASSWORD';
-const VALID_EMAIL = 'VALID_EMAIL';
-const VALID_PASSWORD = 'VALID_PASSWORD';
-const initialState = {
-  email: false,
-  password: false,
+const code = (Math.floor(Math.random() * 90000) + 10000).toString();
+
+const sendSignUpForm = async (formData) => {
+  console.log({ ...formData, code });
+  // const response = await axios({
+  //   method: 'post',
+  //   url: '/',
+  //   data: formData,
+  // });
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case INVALID_EMAIL:
-      return {
-        ...state,
-        email: true,
-      };
-    case INVALID_PASSWORD:
-      return {
-        ...state,
-        password: true,
-      };
-    case VALID_EMAIL:
-      return {
-        ...state,
-        email: false,
-      };
-    case VALID_PASSWORD:
-      return {
-        ...state,
-        password: false,
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setValue(value);
+  };
+  return { value, onChange };
 };
 
 function UserSignUp() {
@@ -47,9 +36,19 @@ function UserSignUp() {
     gender: 'Female',
     yearOfAdmission: '17',
   });
-  const [error, dispatch] = useReducer(reducer, initialState);
+
+  const emailValid = useRef();
+  const passwordValid = useRef();
+  const postButton = useRef();
+  const finalAuth = useRef();
+  const verifyCode = useRef();
+  const codeValid = useRef();
+  const [state, refetch] = useAsync(() => sendSignUpForm(signUpForm), [], true);
+  const userCode = useInput('');
+  const navigate = useNavigate();
 
   const { email, password, passwordCheck, school } = signUpForm;
+  const { loading, data, error } = state;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -65,30 +64,49 @@ function UserSignUp() {
       yearOfAdmission: '17',
     });
   };
-
-  useEffect(() => {
-    console.log(error);
-    if (!error.email && !error.password) {
-      resetForm();
-    }
-  }, [error]);
-  const onSubmit = (e) => {
+  const onEmailSubmit = (e) => {
+    const submitError = {
+      email: false,
+      password: false,
+    };
     e.preventDefault();
-    console.log(signUpForm);
     const regExp =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    if (!regExp.test(email)) {
+      // email is wrong
+      emailValid.current.style.display = '';
+      submitError.email = true;
+    } else {
+      emailValid.current.style.display = 'none';
+      submitError.email = false;
+    }
+    if (password !== passwordCheck) {
+      // password is wrong
+      passwordValid.current.style.display = '';
+      submitError.password = true;
+    } else {
+      passwordValid.current.style.display = 'none';
+      submitError.password = false;
+    }
+    if (!submitError.email && !submitError.password) {
+      refetch();
+      postButton.current.style.display = 'none';
+      finalAuth.current.style.display = '';
+    }
+  };
 
-    regExp.test(email)
-      ? dispatch({ type: VALID_EMAIL })
-      : dispatch({ type: INVALID_EMAIL });
-    password === passwordCheck
-      ? dispatch({ type: VALID_PASSWORD })
-      : dispatch({ type: INVALID_PASSWORD });
+  const onAuthSubmit = (e) => {
+    e.preventDefault();
+    if (verifyCode.current.value === code) {
+      navigate('/');
+    } else {
+      codeValid.current.style.display = '';
+    }
   };
 
   return (
     <div className="signup-container">
-      <form className="signup-form" onSubmit={onSubmit}>
+      <form className="signup-form" onSubmit={onEmailSubmit}>
         <div>이메일</div>
         <input
           type="text"
@@ -98,9 +116,13 @@ function UserSignUp() {
           value={email}
           required
         />
-        {error.email ? (
-          <div className="signup-error">이메일을 확인해주세요.</div>
-        ) : null}
+        <div
+          className="signup-error"
+          style={{ display: 'none' }}
+          ref={emailValid}
+        >
+          이메일을 확인해주세요.
+        </div>
         <div>비밀번호</div>
         <input
           type="password"
@@ -119,9 +141,14 @@ function UserSignUp() {
           value={passwordCheck}
           required
         />
-        {error.password ? (
-          <div className="signup-error">비밀번호를 확인해주세요.</div>
-        ) : null}
+        <div
+          className="signup-error"
+          style={{ display: 'none' }}
+          ref={passwordValid}
+        >
+          비밀번호를 확인해주세요.
+        </div>
+
         <div>학교 정보</div>
         <input
           type="text"
@@ -143,13 +170,36 @@ function UserSignUp() {
           <option value="19">19학번</option>
           <option value="20">20학번</option>
           <option value="21">21학번</option>
-          <option value="21">22학번</option>
+          <option value="22">22학번</option>
         </select>
-        <div className="signup-btn-container">
-          <button className="signup-btn">회원가입</button>
+        <div className="signup-btn-container" ref={postButton}>
+          <button className="signup-btn">이메일 인증하기</button>
         </div>
       </form>
-      {/* <Link to="api/auth/google">Google로 로그인</Link> */}
+      <form
+        className="final-auth-form"
+        // style={{ display: 'none' }}
+        ref={finalAuth}
+        onSubmit={onAuthSubmit}
+        style={{ display: 'none' }}
+      >
+        <input
+          type="text"
+          placeholder="메일에 적혀있는 번호를 적어주세요"
+          {...userCode}
+          ref={verifyCode}
+        />
+        <div
+          className="signup-error"
+          style={{ display: 'none' }}
+          ref={codeValid}
+        >
+          코드를 확인해주세요.
+        </div>
+        <div className="final-auth-btn-container">
+          <button className="final-auth-btn">가입 완료</button>
+        </div>
+      </form>
     </div>
   );
 }
