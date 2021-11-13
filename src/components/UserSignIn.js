@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import '../css/UserSignIn.scss';
 import useAsync from '../hooks/useAsync';
 
@@ -19,6 +19,7 @@ const UserSignIn = () => {
     password: '',
   });
   const valid = useRef();
+  const navigate = useNavigate();
 
   const { email, password } = inputs;
   const { loading, data: token, error } = state;
@@ -77,8 +78,10 @@ const UserSignIn = () => {
     );
   } else {
     localStorage.setItem('accessToken', token.response);
-    return <Navigate to="/" />;
+    navigate('/');
   }
+
+  return null;
 };
 
 export default UserSignIn;
