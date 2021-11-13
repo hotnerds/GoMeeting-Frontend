@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 import '../css/UserSignIn.scss';
 import useAsync from '../hooks/useAsync';
 
 async function getToken() {
   // const response = await axios.get("https://getuser");
   // return response.data;
-  return null;
+  return {
+    response: 'tokentest',
+  };
 }
 
 const UserSignIn = () => {
@@ -50,32 +53,32 @@ const UserSignIn = () => {
   //   console.log(`error occured : ${error}`);
   //   return null;
   // }
-  // if (!token) {
-  //   console.log("error occured: token is null");
-  //   return null;
-  // }
-
-  return (
-    <form className="signin-form" onSubmit={onSubmit}>
-      <input
-        name="email"
-        placeholder="id"
-        onChange={onChange}
-        value={email}
-      ></input>
-      <span style={{ display: 'none' }} ref={valid}>
-        유효하지 않은 이메일 형식입니다
-      </span>
-      <input
-        name="password"
-        placeholder="password"
-        type="password"
-        onChange={onChange}
-        value={password}
-      ></input>
-      <button className="signin-loginBtn">Login</button>
-    </form>
-  );
+  if (!token) {
+    return (
+      <form className="signin-form" onSubmit={onSubmit}>
+        <input
+          name="email"
+          placeholder="id"
+          onChange={onChange}
+          value={email}
+        ></input>
+        <span style={{ display: 'none' }} ref={valid}>
+          유효하지 않은 이메일 형식입니다
+        </span>
+        <input
+          name="password"
+          placeholder="password"
+          type="password"
+          onChange={onChange}
+          value={password}
+        ></input>
+        <button className="signin-loginBtn">Login</button>
+      </form>
+    );
+  } else {
+    localStorage.setItem('accessToken', token.response);
+    return <Navigate to="/" />;
+  }
 };
 
 export default UserSignIn;

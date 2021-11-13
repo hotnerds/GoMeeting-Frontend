@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "../css/Navigation.scss";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../css/Navigation.scss';
 
 const Navigation = () => {
   return (
-    <div class="navigation">
+    <div className="navigation">
       <div>
         <Link to="/">{/* <img src="person.png" /> */}홈</Link>
       </div>
